@@ -1,0 +1,57 @@
+<!--#set($layout = "layout/layout.vm")-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>平台</title>
+        <link href="/static/themes/bootstrap/easyui.css" type="text/css" rel="stylesheet" />
+        <link href="/static/themes/icon.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.easyui.min.js"></script>
+		
+    </head>
+    <body class="easyui-layout">
+	<h2>Basic Form</h2>
+    <p>Fill the form and submit it.</p>
+    <div style="margin:20px 0;"></div>
+    <div class="easyui-panel" title="New Topic" style="width:100%;max-width:400px;padding:30px 60px;maring:0 auto;">
+        <form id="ff" method="post">
+            <div style="margin-bottom:20px">
+                <input class="easyui-textbox" id="email" name="email" style="width:100%" data-options="label:'用户名:',required:true,validType:'email'">
+            </div>
+            <div style="margin-bottom:20px">
+                <input class="easyui-textbox" id="pwd" name="pwd" style="width:100%" data-options="label:'密码:',required:true">
+            </div>            
+        </form>
+        <div style="text-align:center;padding:5px 0">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()" style="width:80px">登录</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()" style="width:80px">Clear</a>
+        </div>
+    </div>
+    <script>
+        function submitForm(){
+             $('#ff').form('submit',{
+                url: 'loginIn.do',
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+					if(result.IsSuccess)
+					{
+						location.href='main.do';
+					}else
+					{
+					    $.messager.alert('提示',result.Message,'error');
+					}                    
+                }
+            });
+			}
+        function clearForm(){
+            $('#ff').form('clear');
+        }
+    </script>
+
+</body>
+	</html>

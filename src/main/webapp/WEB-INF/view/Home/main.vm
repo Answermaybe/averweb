@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>平台</title>
+        <link href="/static/themes/bootstrap/easyui.css" type="text/css" rel="stylesheet" />
+        <link href="/static/themes/icon.css" type="text/css" rel="stylesheet" />
+		<link href="/static/zTreeStyle/zTreeStyle.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="/static/js/jquery.easyui.min.js"></script>	
+		<script type="text/javascript" src="/static/js/easyui-lang-zh_CN.js"></script>	
+        <script type="text/javascript" src="/static/zTreeStyle/ztreecoremin.js"></script>
+    	<script type="text/javascript" src="/static/zTreeStyle/ztreeexcheckmin.js"></script>
+		<script type="text/javascript">
+            function exit() {
+			location.href="logout.do";            
+            }            
+            function editpassword() {
+            addTab("1000", "密码修改", "/Home/editPassword")
+            }
+        </script>
+    </head>
+    <body class="easyui-layout">	
+        <div data-options="region:'south'" style="height:32px;text-align:center;background-color:#f2f2f2; line-height:30px; color:#808080;">版权所有&copy;西北师范大学</div>
+        <div data-options="region:'west',split:true,title:'管理平台'" style="width: 200px;">
+            #parse('layout/left.vm')		
+        </div>
+        <div  data-options="region:'center'">           
+                    <div class="easyui-panel" id="pcenter" title="欢迎" style="padding:4px;margin:0 auto;border:0;" data-options="collapsible:false,fit:true,tools:'#tt-tools'">
+                        <p style="font-size:14px">注意事项</p>
+                        <ul style="line-height:24px;">
+                            <li>如果登录后加载的页面变形，请使用谷歌浏览器或者火h</li>
+                        </ul>
+                    </div>                
+        </div>     
+		 <div id="tt-tools">
+                <a href="javascript:void(0)" class="icon-arrow_rotate_clockwise"  onclick="back()"></a>
+                <a href="javascript:void(0)" class="icon-key"  onclick="editpassword()"></a>
+                <a href="javascript:void(0)" class="icon-arrow_out" onclick="exit()"></a>
+            </div>
+        <script type="text/javascript">
+		 function updatePanel(subtitle, url) { 
+		      $('#pcenter').panel({
+                    href:url,
+					title:subtitle,
+					collapsible:false
+                });            
+           	 }   
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,137 @@
+    <table  id="dg" class="easyui-datagrid"  
+        data-options="
+        url: '/SysRole/list.do',
+        method: 'get',
+        autoRowHeight:true,
+        rownumbers: true,
+        fit:true,               
+        singleSelect:true,
+        idField: 'id',               
+        toolbar:'#toolbar',
+        pagination: true,
+        pageNumber:1,
+        pageSize: 15,
+        pageList: [15,30,50]
+        ">
+        <thead>
+            <tr>
+                <th data-options="field:'id',hidden:true">序号</th>
+                <th data-options="field:'rolename',width:'20%'">角色名称</th>
+                <th data-options="field:'rolecode',sortable:'true',width:'20%'">角色编码</th>
+                <th data-options="field:'sequence',sortable:'true',width:'20%'" >显示顺序</th>
+                <th data-options="field:'status',width:'20%'" >状态</th>
+                <th data-options="field:'remark',width:'20%'" >备注</th>
+            </tr>
+        </thead>
+    </table>
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:'true'" onclick="newEntity()">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'" onclick="editEntity()">编辑</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:'true'" onclick="destroyEntity()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:'true'" onclick="refresh()">刷新</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-group_key',plain:'true'" onclick="grant()">授权</a>
+    </div>
+	<div id="dlg" class="easyui-dialog" style="width:400px;top:50px;"
+            closed="true" buttons="#dlg-buttons">        
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveEntity()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+		 <div id="grantdlg" class="easyui-dialog" style="width:400px;top:50px;"
+            closed="true" buttons="#grantdlg-buttons">        
+    </div>
+    <div id="grantdlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveTree()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#grantdlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+    <script type="text/javascript">        
+        function newEntity(){
+            $('#dlg').dialog({modal:true,href:'/SysRole/view.do'}).dialog('open').dialog('hcenter').dialog('setTitle','添加角色');
+            			
+        }		
+        function editEntity(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#dlg').dialog({modal:true,href:'/SysRole/view.do?id='+row.id}).dialog('open').dialog('hcenter').dialog('setTitle','修改角色');
+             				
+            }else
+			{
+				$.messager.alert('提示','请选择需要修改的数据!','info');
+			}
+        }
+        function saveEntity(){
+            $('#fm').form('submit',{
+                url: '/SysRole/save.do',
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+					if(result.IsSuccess)
+					{
+						$.messager.alert('提示',result.Message,'info');
+						$('#dlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+					}else
+					{
+					    $.messager.alert('提示',result.Message,'error');
+					}                    
+                }
+            });
+        }
+        function destroyEntity(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('确认','确定要删除吗？',function(r){
+                    if (r){
+                        $.post('/SysRole/delete.do',{id:row.id},function(result){
+                            if (result.IsSuccess){
+							    $.messager.alert('提示',result.Message,'info');
+                                $('#dg').datagrid('reload');    // reload the user data
+                            } else {
+                                $.messager.alert('提示',result.Message,'error');
+                            }
+                        },'json');
+                    }
+                });
+            }else
+			{
+				$.messager.alert('提示','请选择需要删除的数据!','info');
+			}
+        }
+		function refresh(){$('#dg').datagrid('reload'); }
+		//以下为授权树操作
+		 function grant(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#grantdlg').dialog({modal:true,href:'/SysRole/grant.do?id='+row.id}).dialog('open').dialog('hcenter').dialog('setTitle','角色授权');
+             				
+            }else
+			{
+				$.messager.alert('提示','请选择需要授权的角色!','info');
+			}            			
+        }
+		function saveTree(){
+			$('#grantForm').form('submit', {
+                url: '/SysRole/grantsave.do',
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+					if(result.IsSuccess)
+					{
+						$.messager.alert('提示',result.Message,'info');
+						$('#grantdlg').dialog('close');        // close the dialog
+                        $('#dg').datagrid('reload');    // reload the user data
+					}else
+					{
+					    $.messager.alert('提示',result.Message,'error');
+					}                    
+                }
+        });
+		}
+    </script>
+
+

@@ -1,0 +1,31 @@
+<div class="easyui-accordion" data-options="fit:true,border:false">
+    <div title="系统菜单" data-options="selected:true" style="padding: 10px;">
+        <ul class="easyui-tree" data-options="fit:true,animate:true,lines:true">
+            <li>
+                <span>系统管理-权限</span>
+                <ul>
+                    <li data-options="iconCls:'icon-page_gear'">
+                        <span>
+                            <a href="javascript:void(0)" onclick="javascript:updatePanel('页面配置','/SysPrivilege/index.do')">页面配置</a>
+                        </span>
+                    </li>
+                    <li data-options="iconCls:'icon-user_comment'">
+                        <span>
+                            <a href="javascript:void(0)" onclick="javascript:updatePanel('角色管理','/SysRole/index.do')">角色管理</a>
+                        </span>
+                    </li>
+                    <li data-options="iconCls:'icon-user_green'">
+                        <span>
+                            <a href="javascript:void(0)" onclick="javascript:updatePanel('上传示例','/UploadFile/index.do')">上传示例</a>
+                        </span>
+                    </li>
+                    <li data-options="iconCls:'icon-user_add'">
+                        <span>
+                            <a href="javascript:void(0)" onclick="javascript:updatePanel('建设单位用户管理','/ProUser/Index')">建设单位用户管理</a>
+                        </span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

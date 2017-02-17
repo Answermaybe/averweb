@@ -1,0 +1,54 @@
+    <form id="grantForm" method="post" novalidate style="margin:0;">
+    <input type="hidden" id="privilegelist" name="privilegelist" value="$!{privilegelist}" />
+    <input type="hidden" id="rolecode" name="rolecode"  value="$!{rolecode}" />
+    <div class="zTreeDemoBackground left">
+        <ul id="Privilegetree" class="ztree"></ul>
+    </div>  
+</form>
+<script type="text/javascript">
+    var setting = {
+        check: {
+            enable: true
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        callback: {
+            onCheck: onCheck
+        }
+    };
+    var zNodes = [       
+		$!{MenuStr}
+    ];
+    var code;
+
+    function setCheck() {       
+        var zTree = $.fn.zTree.getZTreeObj("Privilegetree"),
+        py = "p",
+        sy = "s",
+        pn = "p",
+        sn = "s",
+        type = { "Y": "ps", "N": "ps" };
+        zTree.setting.check.chkboxType = { "Y": "ps", "N": "ps" };
+    }
+
+    function onCheck(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("Privilegetree");
+        nodes = zTree.getCheckedNodes(true);        
+        v = "";
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            v += nodes[i].id + ",";
+        }
+        if (v.length > 0) v = v.substring(0, v.length - 1);
+        var cityObj = $("#privilegelist");
+        cityObj.attr("value", v);
+    }
+
+    $(function () {
+        $.fn.zTree.init($("#Privilegetree"), setting, zNodes);
+        setCheck();        
+    });
+
+</script>

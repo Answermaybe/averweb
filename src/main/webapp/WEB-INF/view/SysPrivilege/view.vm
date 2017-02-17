@@ -1,0 +1,54 @@
+<form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">菜单信息</div>
+			<input type="hidden" name="id" value="$!{sysprivilege.id}"/>
+			<div style="margin-bottom:10px">
+				<select class="easyui-combobox" id="parentcode" name="parentcode" label="父级菜单:" labelPosition="left" data-options="required:true,editable:false,panelHeight:'auto'" style="width:100%">					
+					  #foreach($sp in $parentlist)
+						#if($sp.privilegecode==${sysprivilege.parentcode})
+						<option value="${sp.privilegecode}" selected="selected">$sp.privilegename</option>
+						#else
+							<option value="${sp.privilegecode}" >$sp.privilegename</option>
+						#end
+					  #end
+				</select>                
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="privilegename" name="privilegename" class="easyui-textbox" label="菜单名称:" data-options="prompt:'请输入名称.',required:true" style="width:100%" value="$!{sysprivilege.privilegename}">
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="privilegecode" name="privilegecode" class="easyui-textbox" label="菜单编码:" data-options="prompt:'请输入编码.',required:true" style="width:100%" value="$!{sysprivilege.privilegecode}" readonly>
+            </div>
+			<div style="margin-bottom:10px">
+                <input id="uri" name="uri" class="easyui-textbox" label="URI:" data-options="prompt:'请输入URI.',required:true" style="width:100%" value="$!{sysprivilege.uri}">
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="sequence" name="sequence" class="easyui-numberspinner" label="显示顺序:" data-options="required:true" style="width:100%" value="$!{sysprivilege.sequence}">
+            </div>
+            <div style="margin-bottom:10px">
+				<select class="easyui-combobox" id="isshow" name="isshow" label="是否显示:" labelPosition="left" data-options="required:true,editable:false,panelHeight:'auto'" style="width:100%">					
+					#if(${sysprivilege.isshow}=="否")
+				    <option value="是" >是</option>
+					<option value="否" selected="selected">否</option>
+					#else
+					<option value="是" selected="selected">是</option>
+					<option value="否" >否</option>
+					#end
+				</select>                
+            </div>
+			 <div style="margin-bottom:10px">
+                <input id="remark" name="remark" class="easyui-textbox" label="图标:" style="width:100%" value="$!{sysprivilege.remark}">
+            </div>
+        </form>
+	<script type="text/javascript">	              
+			$('#parentcode').combobox({
+            	onChange: function(param){
+            		 $.ajax({
+                    url: "getCode.do?parentCode=" + $("#parentcode").val(),
+                    dataType: "text",
+                    success: function (result) {					
+                        $("#privilegecode").textbox('setValue', result);
+                    }
+                   });
+            	}
+            })           
+	</script>

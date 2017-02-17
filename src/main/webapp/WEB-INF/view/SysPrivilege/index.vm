@@ -1,0 +1,99 @@
+   <table id="dg" class="easyui-treegrid" style="margin: 0 auto;" 
+    data-options="
+                url: '/SysPrivilege/treelist.do',
+                method: 'get',
+				autoRowHeight:true,
+                rownumbers: true,
+				fit:true,
+                fitColumns:true,
+                idField: 'id',
+                treeField: 'privilegename',
+                toolbar:'#toolbar',
+                pagination: true,
+                pageSize: 15,
+                pageList: [15,30,50]
+            ">
+    <thead>
+        <tr>
+            <th data-options="field:'id',hidden:true">序号</th>
+            <th data-options="field:'privilegename',width:'20%'">名称</th>
+            <th data-options="field:'privilegecode',width:'10%'">编码</th>            
+            <th data-options="field:'parentcode',width:'10%'">父编码</th>
+            <th data-options="field:'uri',width:'20%'">URI</th>
+            <th data-options="field:'isshow',width:'10%'">是否显示</th>
+            <th data-options="field:'sequence',width:'10%'">顺序</th>
+            <th data-options="field:'remark',width:'10%'">图标</th>
+        </tr>
+    </thead>
+</table>
+    <div id="toolbar">
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:'true'" onclick="newEntity()">新增</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'" onclick="editEntity()">编辑</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:'true'" onclick="destroyEntity()">删除</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:'true'" onclick="refresh()">刷新</a>
+    </div>
+	 <div id="dlg" class="easyui-dialog" style="width:400px;top:50px;"
+            closed="true" buttons="#dlg-buttons">        
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveEntity()" style="width:90px">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close');" style="width:90px">取消</a>
+    </div>
+    <script type="text/javascript">        
+        function newEntity(){
+            $('#dlg').dialog({modal:true,href:'/SysPrivilege/view.do'}).dialog('open').dialog('hcenter').dialog('setTitle','添加菜单');
+        }		
+        function editEntity(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $('#dlg').dialog({modal:true,href:'/SysPrivilege/view.do?id='+row.id}).dialog('open').dialog('hcenter').dialog('setTitle','修改菜单');
+             				
+            }else
+			{
+				$.messager.alert('提示','请选择需要修改的数据!','info');
+			}
+        }
+        function saveEntity(){
+            $('#fm').form('submit',{
+                url: '/SysPrivilege/save.do',
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+					if(result.IsSuccess)
+					{
+						$.messager.alert('提示',result.Message,'info');
+						$('#dlg').dialog('close');        // close the dialog
+                        $('#dg').treegrid('reload');// reload the user data
+					}else
+					{
+					    $.messager.alert('提示',result.Message,'error');
+					}                    
+                }
+            });
+        }
+        function destroyEntity(){
+            var row = $('#dg').datagrid('getSelected');
+            if (row){
+                $.messager.confirm('确认','确定要删除吗？',function(r){
+                    if (r){
+                        $.post('/SysPrivilege/delete.do',{id:row.id},function(result){
+                            if (result.IsSuccess){
+							    $.messager.alert('提示',result.Message,'info');
+                                $('#dg').treegrid('reload');    // reload the user data
+                            } else {
+                                $.messager.alert('提示',result.Message,'error');
+                            }
+                        },'json');
+                    }
+                });
+            }else
+			{
+				$.messager.alert('提示','请选择需要删除的数据!','info');
+			}
+        }
+		function refresh(){$('#dg').treegrid('reload'); }
+    </script>
+
+

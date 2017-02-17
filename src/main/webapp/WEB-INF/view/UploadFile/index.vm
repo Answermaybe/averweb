@@ -1,0 +1,40 @@
+ <div style="margin-bottom:20px">
+            <input id="filevalue" class="easyui-textbox" data-options="buttonText:'上传',required:true,editable:false" >
+</div>
+	<div id="dlg" class="easyui-dialog" style="width:400px;top:50px;"
+                closed="true" buttons="#dlg-buttons">        
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="uploadprocess()" style="width:90px">上传</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+    </div>
+	<script type="text/javascript">
+	 $("#filevalue").textbox({onClickButton:function(){
+        openupload();
+    	}
+	})
+	function openupload(){
+            $('#dlg').dialog({modal:true,href:'/UploadFile/upload.do'}).dialog('open').dialog('hcenter').dialog('setTitle','文件上传');
+            			
+        }
+	 function uploadprocess(){
+            $('#fm').form('submit',{
+                url: '/UploadFile/springUpload.do',
+                onSubmit: function(){
+                    return $(this).form('validate');
+                },
+                success: function(result){
+                    var result = eval('('+result+')');
+					if(result.IsSuccess)
+					{
+					    $.messager.alert('提示',result.Message,'info');	
+						$('#filevalue').textbox('setValue',result.fileUrl);						
+						$('#dlg').dialog('close');
+					}else
+					{
+					    $.messager.alert('提示',result.Message,'error');
+					}                    
+                }
+            });
+        }
+	</script>

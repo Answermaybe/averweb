@@ -1,0 +1,5 @@
+ <form id="fm"  method="post" enctype="multipart/form-data">
+ <div style="margin:20px">
+      <input class="easyui-filebox"  name="file"  data-options="prompt:'请选择上传文件',required:true,buttonText:'选择'" style="width:100%">
+ </div>  
+ </form>

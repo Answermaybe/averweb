@@ -1,0 +1,27 @@
+       <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:20px;font-size:14px;border-bottom:1px solid #ccc">角色信息</div>
+			<input type="hidden" name="id" value="$!{sysrole.id}"/>
+            <div style="margin-bottom:10px">
+                <input id="rolename" name="rolename" class="easyui-textbox" label="角色名称:" data-options="prompt:'请输入角色名称.',required:true" style="width:100%" value="$!{sysrole.rolename}">
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="rolecode" name="rolecode" class="easyui-textbox" label="角色编码:" data-options="prompt:'请输入角色编码.',required:true" style="width:100%" value="$!{sysrole.rolecode}" readonly>
+            </div>
+            <div style="margin-bottom:10px">
+                <input id="sequence" name="sequence" class="easyui-numberspinner" label="显示顺序:" data-options="required:true" style="width:100%" value="$!{sysrole.sequence}">
+            </div>
+            <div style="margin-bottom:10px">
+				<select class="easyui-combobox" id="status" name="status" label="状态:" labelPosition="left" data-options="required:true,editable:false,panelHeight:'auto'" style="width:100%">					
+					#if(${sysrole.status}=="停用")
+					<option value="启用" >启用</option>
+					<option value="停用" selected="selected">停用</option>					
+					#else
+					<option value="启用" selected="selected">启用</option>
+					<option value="停用" >停用</option>
+					#end
+				</select>                
+            </div>
+			 <div style="margin-bottom:10px">
+                <input id="remark" name="remark" class="easyui-textbox" label="备注:" style="width:100%" value="$!{sysrole.remark}">
+            </div>
+        </form>

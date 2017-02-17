@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/com/nwnu/averweb/model/SysPrivilege.java=UTF-8
+encoding//src/main/java/com/nwnu/averweb/model/SysPrivilegeTree.java=UTF-8
+encoding//src/main/java/com/nwnu/averweb/model/SysRole.java=UTF-8
+encoding//src/main/java/com/nwnu/averweb/model/SysRoleprivilege.java=UTF-8
+encoding//src/main/java/com/nwnu/averweb/model/SysUser.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/resources/config.properties=UTF-8
+encoding//src/main/resources/messages/welcome_en.properties=UTF-8
+encoding//src/main/resources/messages/welcome_zh.properties=UTF-8
+encoding//src/main/resources/mybatis-servlet.xml=UTF-8
+encoding//src/main/webapp/WEB-INF/view/SysRole/index.vm=UTF-8
+encoding//src/main/webapp/WEB-INF/web.xml=UTF-8
+encoding/<project>=UTF-8
